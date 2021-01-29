@@ -66,6 +66,7 @@ public class ParkingDataBaseIT {
         // THEN
         assertNotNull(expectedTicket);
         assertNotEquals(unexpectedParkingSlot, actualParkingSlot);
+        assertEquals(unexpectedParkingSlot, 2);
 
         //TODO: check that a ticket is actually saved in DB and Parking table is updated with availability
     }
