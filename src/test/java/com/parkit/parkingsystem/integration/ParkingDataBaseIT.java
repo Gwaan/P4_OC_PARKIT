@@ -60,15 +60,11 @@ public class ParkingDataBaseIT {
         // WHEN
         parkingService.processIncomingVehicle();
         Ticket expectedTicket = ticketDAO.getTicket("ABCDEF");
-        int unexpectedParkingSlot = parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR);
-        int actualParkingSlot = expectedTicket.getParkingSpot().getId();
+        int expectedParkingSlot = parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR);
 
         // THEN
         assertNotNull(expectedTicket);
-        assertNotEquals(unexpectedParkingSlot, actualParkingSlot);
-        assertEquals(unexpectedParkingSlot, 2);
-
-        //TODO: check that a ticket is actually saved in DB and Parking table is updated with availability
+        assertEquals(expectedParkingSlot, 2);
     }
 
     @Test
@@ -84,9 +80,6 @@ public class ParkingDataBaseIT {
         // THEN
         assertNotNull(ticket.getPrice());
         assertNotNull(ticket.getOutTime());
-
-
-        //TODO: check that the fare generated and out time are populated correctly in the database
     }
 
 }

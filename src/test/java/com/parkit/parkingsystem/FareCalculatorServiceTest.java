@@ -139,7 +139,7 @@ public class FareCalculatorServiceTest {
         // ACT
         fareCalculatorService.calculateFare(ticket);
 
-        //ASSERT
+        // ASSERT
         assertEquals(34.2, ticket.getPrice());
 
 

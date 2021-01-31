@@ -17,8 +17,6 @@ public class FareCalculatorService {
         long diff = outMilliseconds.getTime() - inMilliseconds.getTime();
         double duration = (double) (diff / 1000) / 3600;
 
-        //TODO: Some tests are failing here. Need to check if this logic is correct
-
         switch (ticket.getParkingSpot().getParkingType()) {
             case CAR: {
                 if (ticket.getIsRecurrentUser()) {
