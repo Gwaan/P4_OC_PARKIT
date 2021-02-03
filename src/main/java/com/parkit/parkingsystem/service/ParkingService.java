@@ -31,7 +31,11 @@ public class ParkingService {
         try {
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
             if (parkingSpot != null && parkingSpot.getId() > 0) {
+
                 String vehicleRegNumber = getVehichleRegNumber();
+                if (ticketDAO.getCarAlreadyInParking(vehicleRegNumber)) {
+                    throw new IllegalArgumentException("This vehicle is already in parking !");
+                }
                 parkingSpot.setAvailable(false);
                 parkingSpotDAO.updateParking(parkingSpot);//allot this parking space and mark it's availability as false
 
@@ -104,7 +108,7 @@ public class ParkingService {
     public void processExitingVehicle() {
         try {
             String vehicleRegNumber = getVehichleRegNumber();
-            Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
+            Ticket ticket = ticketDAO.getTicketCarAlreadyParked(vehicleRegNumber);
             Date outTime = new Date();
             ticket.setOutTime(outTime);
             if (ticketDAO.getVehicleRegNumber(vehicleRegNumber)) {
