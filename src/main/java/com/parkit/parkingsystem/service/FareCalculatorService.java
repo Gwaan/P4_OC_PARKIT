@@ -19,10 +19,13 @@ public class FareCalculatorService {
 
         switch (ticket.getParkingSpot().getParkingType()) {
             case CAR: {
-                if (ticket.getIsRecurrentUser()) {
+                if (ticket.getIsRecurrentUser() && duration > 0.5) {
                     double price = duration * Fare.CAR_RATE_PER_HOUR;
                     double discountPrice = price - (price * 0.05);
                     ticket.setPrice(discountPrice);
+                    break;
+                } else if (duration <= 0.5) {
+                    ticket.setPrice(0.00);
                     break;
                 } else {
                     ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
@@ -30,10 +33,13 @@ public class FareCalculatorService {
                 }
             }
             case BIKE: {
-                if (ticket.getIsRecurrentUser()) {
+                if (ticket.getIsRecurrentUser() && duration > 0.5) {
                     double price = duration * Fare.BIKE_RATE_PER_HOUR;
                     double discountPrice = price - (price * 0.05);
                     ticket.setPrice(discountPrice);
+                    break;
+                } else if (duration <= 0.5) {
+                    ticket.setPrice(0.00);
                     break;
                 } else {
                     ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
