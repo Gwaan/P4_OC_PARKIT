@@ -8,8 +8,13 @@ import com.parkit.parkingsystem.service.FareCalculatorService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 
 import java.util.Date;
 
@@ -17,6 +22,7 @@ public class FareCalculatorServiceTest {
 
     private static FareCalculatorService fareCalculatorService;
     private Ticket ticket;
+
 
     @BeforeAll
     private static void setUp() {
@@ -198,17 +204,4 @@ public class FareCalculatorServiceTest {
         // ASSERT
         assertEquals(22.8, ticket.getPrice());
     }
-
-   /* @Test
-    public void calculateFareBikeWithUnknownParkingType() {
-        Date inTime = new Date();
-        inTime.setTime(System.currentTimeMillis() + (60 * 60 * 1000));
-        Date outTime = new Date();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType, false);
-
-        ticket.setInTime(inTime);
-        ticket.setOutTime(outTime);
-        ticket.setParkingSpot(parkingSpot);
-        assertThrows(IllegalArgumentException.class, () -> fareCalculatorService.calculateFare(ticket));
-    }*/
 }
