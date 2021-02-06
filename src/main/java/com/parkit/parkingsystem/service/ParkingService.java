@@ -109,7 +109,7 @@ public class ParkingService {
         try {
             String vehicleRegNumber = getVehichleRegNumber();
             Ticket ticket = ticketDAO.getTicketCarAlreadyParked(vehicleRegNumber);
-            Date outTime = new Date();
+            Date outTime = new Date(System.currentTimeMillis() + 1000);
             ticket.setOutTime(outTime);
             if (ticketDAO.getVehicleRegNumber(vehicleRegNumber)) {
                 ticket.setIsRecurrentUser(true);

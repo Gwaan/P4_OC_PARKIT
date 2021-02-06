@@ -1,20 +1,15 @@
 package com.parkit.parkingsystem;
 
 import com.parkit.parkingsystem.util.InputReaderUtil;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
-@ExtendWith(MockitoExtension.class)
 public class InputReaderUtilTest {
 
     private static InputReaderUtil inputReaderUtil;
@@ -36,6 +31,17 @@ public class InputReaderUtilTest {
     }
 
     @Test
+    public void readSelectionWhenInputIsInvalidTest() {
+        // ARRANGE
+        String input = "r";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
+        // ASSERT
+        assertEquals(-1, inputReaderUtil.readSelection());
+    }
+
+    @Test
     public void readVehicleRegNumberTest() throws Exception {
         // ARRANGE
         String input = "ABCDEF";
@@ -47,7 +53,7 @@ public class InputReaderUtilTest {
     }
 
     @Test
-    public void readVehicleRegNumberWhenInputIsInvalid() {
+    public void readVehicleRegNumberWhenInputIsInvalidTest() {
         // ARRANGE
         String input = "\n";
         InputStream in = new ByteArrayInputStream(input.getBytes());

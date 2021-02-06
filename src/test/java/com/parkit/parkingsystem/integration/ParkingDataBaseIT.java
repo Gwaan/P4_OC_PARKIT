@@ -77,7 +77,7 @@ public class ParkingDataBaseIT {
         // WHEN
         parkingService.processExitingVehicle();
         Ticket ticket = ticketDAO.getTicket("ABCDEF");
-        ticket.setOutTime(new Date(ticket.getInTime().getTime() + 1000));
+        ticket.setOutTime(new Date(ticket.getInTime().getTime() + 2000));
 
         // THEN
         assertNotNull(ticket.getPrice());
