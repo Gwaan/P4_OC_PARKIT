@@ -1,5 +1,6 @@
 package com.parkit.parkingsystem;
 
+import com.parkit.parkingsystem.constants.DBConstants;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
@@ -53,7 +54,7 @@ public class ParkingServiceTest {
     public void processExitingVehicleTest() throws Exception {
         // ARRANGE
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-        when(ticketDAO.getTicketCarAlreadyParked(anyString())).thenReturn(ticket);
+        when(ticketDAO.getTicket(anyString(), anyString())).thenReturn(ticket);
         when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
 
         // ACT

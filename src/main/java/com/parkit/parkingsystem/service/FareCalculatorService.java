@@ -15,7 +15,7 @@ public class FareCalculatorService {
         Date inMilliseconds = ticket.getInTime();
         Date outMilliseconds = ticket.getOutTime();
         long diff = outMilliseconds.getTime() - inMilliseconds.getTime();
-        double duration = (double) (diff / 1000) / 3600;
+        double duration = (double) (diff / (double) 1000) / 3600;
 
         switch (ticket.getParkingSpot().getParkingType()) {
             case CAR: {
