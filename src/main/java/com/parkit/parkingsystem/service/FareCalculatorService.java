@@ -3,6 +3,8 @@ package com.parkit.parkingsystem.service;
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.model.Ticket;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 public class FareCalculatorService {
@@ -22,13 +24,13 @@ public class FareCalculatorService {
                 if (ticket.getIsRecurrentUser() && duration > 0.5) {
                     double price = duration * Fare.CAR_RATE_PER_HOUR;
                     double discountPrice = price - (price * 0.05);
-                    ticket.setPrice(discountPrice);
+                    ticket.setPrice(roundDouble(discountPrice, 2));
                     break;
                 } else if (duration <= 0.5) {
                     ticket.setPrice(0.00);
                     break;
                 } else {
-                    ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
+                    ticket.setPrice(roundDouble(duration * Fare.CAR_RATE_PER_HOUR, 2));
                     break;
                 }
             }
@@ -36,18 +38,24 @@ public class FareCalculatorService {
                 if (ticket.getIsRecurrentUser() && duration > 0.5) {
                     double price = duration * Fare.BIKE_RATE_PER_HOUR;
                     double discountPrice = price - (price * 0.05);
-                    ticket.setPrice(discountPrice);
+                    ticket.setPrice(roundDouble(discountPrice, 2));
                     break;
                 } else if (duration <= 0.5) {
                     ticket.setPrice(0.00);
                     break;
                 } else {
-                    ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
+                    ticket.setPrice(roundDouble(duration * Fare.BIKE_RATE_PER_HOUR, 2));
                     break;
                 }
             }
             default:
                 throw new IllegalArgumentException("Unknown Parking Type");
         }
+    }
+
+    private double roundDouble(double d, int places) {
+        BigDecimal bigDecimal = new BigDecimal(Double.toString(d));
+        bigDecimal = bigDecimal.setScale(places, RoundingMode.HALF_UP);
+        return bigDecimal.doubleValue();
     }
 }

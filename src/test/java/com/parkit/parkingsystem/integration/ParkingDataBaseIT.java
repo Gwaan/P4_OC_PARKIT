@@ -82,7 +82,7 @@ public class ParkingDataBaseIT {
         ticket.setOutTime(new Date(ticket.getInTime().getTime() + 2000));
 
         // THEN
-        assertNotNull(ticket.getPrice());
+        assertEquals(0, ticket.getPrice());
         assertNotNull(ticket.getOutTime());
     }
 
