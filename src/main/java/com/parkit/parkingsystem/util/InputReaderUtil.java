@@ -13,7 +13,7 @@ import java.util.Scanner;
  */
 public class InputReaderUtil {
 
-    private static Scanner scan;
+    private Scanner scan;
     private static final Logger logger = LogManager.getLogger("InputReaderUtil");
 
     /**
@@ -23,7 +23,7 @@ public class InputReaderUtil {
      */
     public int readSelection() {
         try {
-            scan = new Scanner(System.in);
+            scan = new Scanner(System.in, "UTF-8");
             int input = Integer.parseInt(scan.nextLine());
             return input;
         } catch (Exception e) {
@@ -42,7 +42,7 @@ public class InputReaderUtil {
      */
     public String readVehicleRegistrationNumber() throws Exception {
         try {
-            scan = new Scanner(System.in);
+            scan = new Scanner(System.in, "UTF-8");
             String vehicleRegNumber = scan.nextLine();
             if (vehicleRegNumber == null || vehicleRegNumber.trim().length() == 0) {
                 throw new IllegalArgumentException("Invalid input provided");
