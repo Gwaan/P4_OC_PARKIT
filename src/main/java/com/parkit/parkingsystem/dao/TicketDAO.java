@@ -8,10 +8,7 @@ import com.parkit.parkingsystem.model.Ticket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
+import java.sql.*;
 
 public class TicketDAO {
 
@@ -46,12 +43,13 @@ public class TicketDAO {
         Connection con = null;
         Ticket ticket = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             con = dataBaseConfig.getConnection();
             ps = con.prepareStatement(sqlRequest);
             //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
             ps.setString(1, vehicleRegNumber);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             if (rs.next()) {
                 ticket = new Ticket();
                 ParkingSpot parkingSpot = new ParkingSpot(rs.getInt(1), ParkingType.valueOf(rs.getString(6)), false);
@@ -66,6 +64,7 @@ public class TicketDAO {
         } catch (Exception ex) {
             logger.error("Error fetching next available slot", ex);
         } finally {
+            dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
             dataBaseConfig.closeConnection(con);
         }
@@ -95,12 +94,13 @@ public class TicketDAO {
     public boolean getVehicleRegNumber(String vehicleRegNumber) {
         Connection con = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         boolean result = false;
         try {
             con = dataBaseConfig.getConnection();
             ps = con.prepareStatement(DBConstants.GET_VEHICLE_REG_NUMBER);
             ps.setString(1, vehicleRegNumber);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             if (rs.next()) {
                 result = true;
             } else {
@@ -109,6 +109,7 @@ public class TicketDAO {
         } catch (Exception ex) {
             logger.error("Error while accessing database", ex);
         } finally {
+            dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
             dataBaseConfig.closeConnection(con);
         }
@@ -118,12 +119,13 @@ public class TicketDAO {
     public boolean getCarAlreadyInParking(String vehicleRegNumber) {
         Connection con = null;
         PreparedStatement ps = null;
+        ResultSet rs =null;
         boolean result = false;
         try {
             con = dataBaseConfig.getConnection();
             ps = con.prepareStatement(DBConstants.GET_VEHICLE_REG_NUMBER_CAR_ALREADY_PARKED);
             ps.setString(1, vehicleRegNumber);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             if (rs.next()) {
                 result = true;
             } else {
@@ -132,6 +134,7 @@ public class TicketDAO {
         } catch (Exception ex) {
             logger.error("Error while accessing database", ex);
         } finally {
+            dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
             dataBaseConfig.closeConnection(con);
         }
