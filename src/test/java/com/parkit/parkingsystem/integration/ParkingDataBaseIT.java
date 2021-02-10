@@ -1,5 +1,6 @@
 package com.parkit.parkingsystem.integration;
 
+import com.parkit.parkingsystem.constants.DBConstants;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
@@ -18,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -60,7 +62,7 @@ public class ParkingDataBaseIT {
 
         // WHEN
         parkingService.processIncomingVehicle();
-        Ticket expectedTicket = ticketDAO.getTicket("ABCDEF");
+        Ticket expectedTicket = ticketDAO.getTicket("ABCDEF", DBConstants.GET_TICKET);
         int expectedParkingSlot = parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR);
 
         // THEN
@@ -76,11 +78,11 @@ public class ParkingDataBaseIT {
 
         // WHEN
         parkingService.processExitingVehicle();
-        Ticket ticket = ticketDAO.getTicket("ABCDEF");
-        ticket.setOutTime(new Date(ticket.getInTime().getTime() + 1000));
+        Ticket ticket = ticketDAO.getTicket("ABCDEF", DBConstants.GET_TICKET);
+        ticket.setOutTime(new Date(ticket.getInTime().getTime() + 2000));
 
         // THEN
-        assertNotNull(ticket.getPrice());
+        assertEquals(0, ticket.getPrice());
         assertNotNull(ticket.getOutTime());
     }
 
