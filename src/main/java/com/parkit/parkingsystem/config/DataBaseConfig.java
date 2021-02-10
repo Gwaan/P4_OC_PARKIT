@@ -15,6 +15,7 @@ import java.sql.*;
 public class DataBaseConfig {
 
     private static final Logger logger = LogManager.getLogger("DataBaseConfig");
+    private ReadProperties rP = new ReadProperties();
 
     /**
      * <p>Method returning a Mysql connection</p>
@@ -25,8 +26,9 @@ public class DataBaseConfig {
      */
     public Connection getConnection() throws ClassNotFoundException, SQLException {
         logger.info("Create DB connection");
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/prod?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC", "root", "rootroot");
+        rP.getDbConnectionInfo();
+        Class.forName(rP.getDriver());
+        return DriverManager.getConnection(rP.getUrl(), rP.getUser(), rP.getPassword());
     }
 
     /**
