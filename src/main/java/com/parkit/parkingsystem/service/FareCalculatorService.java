@@ -7,8 +7,20 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
+/**
+ * <p>Service class calculating fare for different type of vehicles</p>
+ *
+ * @author Gwen
+ * @version 1.0
+ */
 public class FareCalculatorService {
 
+    /**
+     * <p>Method calculating fare for different type of vehicles</p>
+     *
+     * @param ticket ticket for which the fare must be calculated
+     * @throws IllegalArgumentException if the out time is null or in advance compared to the in time
+     */
     public void calculateFare(Ticket ticket) {
         if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {
             throw new IllegalArgumentException("Out time provided is incorrect:" + ticket.getOutTime().toString());
@@ -53,6 +65,13 @@ public class FareCalculatorService {
         }
     }
 
+    /**
+     * <p>Method rounding to two places the fare</p>
+     *
+     * @param d      double to be rounded
+     * @param places scale
+     * @return a double rounded to two places
+     */
     private double roundDouble(double d, int places) {
         BigDecimal bigDecimal = new BigDecimal(Double.toString(d));
         bigDecimal = bigDecimal.setScale(places, RoundingMode.HALF_UP);

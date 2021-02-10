@@ -10,13 +10,26 @@ import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
+/**
+ * <p>DAO class for parking table in Mysql database</p>
+ *
+ * @author Gwen
+ * @version 1.0
+ */
 public class ParkingSpotDAO {
 
     private static final Logger logger = LogManager.getLogger("ParkingSpotDAO");
 
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
+    /**
+     * <p>Method returning the next available slot in the parking table</p>
+     *
+     * @param parkingType Parking Type of the vehicle
+     * @return next available parking slot
+     */
     public int getNextAvailableSlot(ParkingType parkingType) {
         Connection con = null;
         PreparedStatement ps = null;
@@ -31,7 +44,6 @@ public class ParkingSpotDAO {
                 result = rs.getInt(1);
                 ;
             }
-            dataBaseConfig.closeResultSet(rs);
         } catch (Exception ex) {
             logger.error("Error fetching next available slot", ex);
         } finally {
@@ -42,8 +54,13 @@ public class ParkingSpotDAO {
         return result;
     }
 
+    /**
+     * <p>Method updating the availability for that parking slot</p>
+     *
+     * @param parkingSpot Parking Spot to get updated
+     * @return either true if an update has been realized or false if nothing has been returned
+     */
     public boolean updateParking(ParkingSpot parkingSpot) {
-        //update the availability fo that parking slot
         Connection con = null;
         PreparedStatement ps = null;
         try {

@@ -12,6 +12,12 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Date;
 
+/**
+ * <p>Service class which proceed to entering and exiting vehicles </p>
+ *
+ * @author Gwen
+ * @version 1.0
+ */
 public class ParkingService {
 
     private static final Logger logger = LogManager.getLogger("ParkingService");
@@ -22,12 +28,22 @@ public class ParkingService {
     private ParkingSpotDAO parkingSpotDAO;
     private TicketDAO ticketDAO;
 
+    /**
+     * @param inputReaderUtil utility class to get input from the user
+     * @param parkingSpotDAO  dao class to execute request on parking table on mysql database
+     * @param ticketDAO       adao class to execute request on ticket table on mysql database
+     */
     public ParkingService(InputReaderUtil inputReaderUtil, ParkingSpotDAO parkingSpotDAO, TicketDAO ticketDAO) {
         this.inputReaderUtil = inputReaderUtil;
         this.parkingSpotDAO = parkingSpotDAO;
         this.ticketDAO = ticketDAO;
     }
 
+    /**
+     * <p>Method of entering vehicles</p>
+     *
+     * @throws IllegalArgumentException if the vehicle registration number is still parked in the parking lot
+     */
     public void processIncomingVehicle() {
         try {
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
@@ -42,8 +58,6 @@ public class ParkingService {
 
                 Date inTime = new Date();
                 Ticket ticket = new Ticket();
-                //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
-                //ticket.setId(ticketID);
                 if (ticketDAO.getVehicleRegNumber(vehicleRegNumber)) {
                     System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
                     ticket.setIsRecurrentUser(true);
@@ -63,11 +77,21 @@ public class ParkingService {
         }
     }
 
+    /**
+     * <p>Method to get vehicle registration number input</p>
+     *
+     * @return String input of the vehicle registration number
+     */
     private String getVehichleRegNumber() throws Exception {
         System.out.println("Please type the vehicle registration number and press enter key");
         return inputReaderUtil.readVehicleRegistrationNumber();
     }
 
+    /**
+     * <p>Method to get the next parking number</p>
+     *
+     * @return a parking spot which is available
+     */
     public ParkingSpot getNextParkingNumberIfAvailable() {
         int parkingNumber = 0;
         ParkingSpot parkingSpot = null;
@@ -87,6 +111,12 @@ public class ParkingService {
         return parkingSpot;
     }
 
+    /**
+     * <p>Method to get the vehicle type</p>
+     *
+     * @return the vehicle parking type
+     * @throws IllegalArgumentException if the input is not a vehicle type
+     */
     private ParkingType getVehichleType() {
         System.out.println("Please select vehicle type from menu");
         System.out.println("1 CAR");
@@ -106,6 +136,9 @@ public class ParkingService {
         }
     }
 
+    /**
+     * <p>Method of exiting vehicles that update the ticket with fare and update the parking spot with availability</p>
+     */
     public void processExitingVehicle() {
         try {
             String vehicleRegNumber = getVehichleRegNumber();

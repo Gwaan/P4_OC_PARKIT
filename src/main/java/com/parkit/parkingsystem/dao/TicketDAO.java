@@ -10,12 +10,24 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 
+/**
+ * <p>DAO class for ticket table in Mysql database</p>
+ *
+ * @author Gwen
+ * @version 1.0
+ */
 public class TicketDAO {
 
     private static final Logger logger = LogManager.getLogger("TicketDAO");
 
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
+    /**
+     * <p>Method returning the next available slot in the parking table</p>
+     *
+     * @param ticket ticket to be saved
+     * @return either true if the ticket was correctly saved in the database or false if save failed
+     */
     public boolean saveTicket(Ticket ticket) {
         Connection con = null;
         PreparedStatement ps = null;
@@ -39,6 +51,13 @@ public class TicketDAO {
         }
     }
 
+    /**
+     * <p>Method returning the next available slot in the parking table</p>
+     *
+     * @param vehicleRegNumber vehicle registration number associated with ticket
+     * @param sqlRequest       sql request to execute
+     * @return ticket retrieved from database
+     */
     public Ticket getTicket(String vehicleRegNumber, String sqlRequest) {
         Connection con = null;
         Ticket ticket = null;
@@ -71,6 +90,12 @@ public class TicketDAO {
         return ticket;
     }
 
+    /**
+     * <p>Method updating a ticket in database</p>
+     *
+     * @param ticket ticket to be updated
+     * @return either true if the ticket was correctly updated or false if the update failed
+     */
     public boolean updateTicket(Ticket ticket) {
         Connection con = null;
         PreparedStatement ps = null;
@@ -91,6 +116,12 @@ public class TicketDAO {
         return false;
     }
 
+    /**
+     * <p>Method returning if a vehicle registration number is existing in table ticket</p>
+     *
+     * @param vehicleRegNumber vehicle registration number to be check
+     * @return either true if the vehicle registration number exists in database or true if does not exist
+     */
     public boolean getVehicleRegNumber(String vehicleRegNumber) {
         Connection con = null;
         PreparedStatement ps = null;
@@ -116,10 +147,16 @@ public class TicketDAO {
         return result;
     }
 
+    /**
+     * <p>Method returning if a vehicle is already parked in the parking</p>
+     *
+     * @param vehicleRegNumber vehicle registration number to check
+     * @return either true if the vehicle is already parked in the parking lot either false
+     */
     public boolean getCarAlreadyInParking(String vehicleRegNumber) {
         Connection con = null;
         PreparedStatement ps = null;
-        ResultSet rs =null;
+        ResultSet rs = null;
         boolean result = false;
         try {
             con = dataBaseConfig.getConnection();
