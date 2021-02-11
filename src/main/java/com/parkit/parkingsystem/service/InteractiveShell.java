@@ -7,20 +7,32 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * <p>Service class initializing the app</p>
+ * <p>Service class initializing the app.</p>
  *
  * @author Gwen
  * @version 1.0
  */
-public class InteractiveShell {
+public final class InteractiveShell {
 
-    private static final Logger logger = LogManager.getLogger("InteractiveShell");
+    private InteractiveShell() {
+
+    }
 
     /**
-     * <p>Method which is initializing the app</p>
+     * @see Logger
+     */
+    private static final Logger LOGGER = LogManager.getLogger("InteractiveShell");
+
+    /**
+     * Constant three.
+     */
+    private static final byte THREE = 3;
+
+    /**
+     * <p>Method which is initializing the app.</p>
      */
     public static void loadInterface() {
-        logger.info("App initialized!!!");
+        LOGGER.info("App initialized!!!");
         System.out.println("Welcome to Parking System!");
 
         boolean continueApp = true;
@@ -33,19 +45,19 @@ public class InteractiveShell {
             loadMenu();
             int option = inputReaderUtil.readSelection();
             switch (option) {
-                case 1: {
+                case 1:
                     parkingService.processIncomingVehicle();
                     break;
-                }
-                case 2: {
+
+                case 2:
                     parkingService.processExitingVehicle();
                     break;
-                }
-                case 3: {
+
+                case THREE:
                     System.out.println("Exiting from the system!");
                     continueApp = false;
                     break;
-                }
+
                 default:
                     System.out.println("Unsupported option. Please enter a number corresponding to the provided menu");
             }
@@ -53,7 +65,7 @@ public class InteractiveShell {
     }
 
     /**
-     * <p>Method leaving the user to choose if he enters or leaves the parking lot</p>
+     * <p>Method leaving the user to choose if he enters or leaves the parking lot.</p>
      */
     private static void loadMenu() {
         System.out.println("Please select an option. Simply enter the number to choose an action");
