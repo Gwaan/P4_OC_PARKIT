@@ -21,7 +21,8 @@ public final class InteractiveShell {
     /**
      * @see Logger
      */
-    private static final Logger LOGGER = LogManager.getLogger("InteractiveShell");
+    private static final Logger LOGGER = LogManager.getLogger(
+            "InteractiveShell");
 
     /**
      * Constant three.
@@ -39,7 +40,8 @@ public final class InteractiveShell {
         InputReaderUtil inputReaderUtil = new InputReaderUtil();
         ParkingSpotDAO parkingSpotDAO = new ParkingSpotDAO();
         TicketDAO ticketDAO = new TicketDAO();
-        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        ParkingService parkingService = new ParkingService(inputReaderUtil,
+                parkingSpotDAO, ticketDAO);
 
         while (continueApp) {
             loadMenu();
@@ -59,16 +61,19 @@ public final class InteractiveShell {
                     break;
 
                 default:
-                    System.out.println("Unsupported option. Please enter a number corresponding to the provided menu");
+                    System.out.println("Unsupported option. Please enter a "
+                            + "number corresponding to the provided menu");
             }
         }
     }
 
     /**
-     * <p>Method leaving the user to choose if he enters or leaves the parking lot.</p>
+     * <p>Method leaving the user to choose if he enters or leaves the
+     * parking lot.</p>
      */
     private static void loadMenu() {
-        System.out.println("Please select an option. Simply enter the number to choose an action");
+        System.out.println("Please select an option. Simply enter the number "
+                + "to choose an action");
         System.out.println("1 New Vehicle Entering - Allocate Parking Space");
         System.out.println("2 Vehicle Exiting - Generate Ticket Price");
         System.out.println("3 Shutdown System");

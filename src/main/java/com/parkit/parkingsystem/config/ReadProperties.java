@@ -32,7 +32,8 @@ public class ReadProperties {
     private String driver;
 
     /**
-     * <p>Method getting values from a properties file and setting them to fields.</p>
+     * <p>Method getting values from a properties file and setting them to
+     * fields.</p>
      */
     public void getDbConnectionInfo() {
         FileInputStream fIS = null;

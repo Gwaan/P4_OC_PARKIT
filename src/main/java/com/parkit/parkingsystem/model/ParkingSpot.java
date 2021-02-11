@@ -28,7 +28,8 @@ public class ParkingSpot {
      * @param pParkingType type of vehicle
      * @param pIsAvailable availability of the spot
      */
-    public ParkingSpot(final int pNumber, final ParkingType pParkingType, final boolean pIsAvailable) {
+    public ParkingSpot(final int pNumber, final ParkingType pParkingType,
+                       final boolean pIsAvailable) {
         this.number = pNumber;
         this.parkingType = pParkingType;
         this.isAvailable = pIsAvailable;
@@ -73,7 +74,8 @@ public class ParkingSpot {
     /**
      * getter for parking spot availability.
      *
-     * @return either true if the parking sport is available or false if it's not
+     * @return either true if the parking sport is available or false if it's
+     * not
      */
     public boolean isAvailable() {
         return isAvailable;

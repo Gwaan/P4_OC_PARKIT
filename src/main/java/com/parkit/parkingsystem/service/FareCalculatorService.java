@@ -37,44 +37,53 @@ public class FareCalculatorService {
      * <p>Method calculating fare for different type of vehicles.</p>
      *
      * @param ticket ticket for which the fare must be calculated
-     * @throws IllegalArgumentException if the out time is null or in advance compared to the in time
+     * @throws IllegalArgumentException if the out time is null or in advance
+     *                                  compared to the in time
      */
     public void calculateFare(final Ticket ticket) {
-        if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {
-            throw new IllegalArgumentException("Out time provided is incorrect:" + ticket.getOutTime().toString());
+        if ((ticket.getOutTime() == null)
+                || (ticket.getOutTime().before(ticket.getInTime()))) {
+            throw new IllegalArgumentException(
+                    "Out time provided is " + "incorrect:"
+                            + ticket.getOutTime().toString());
         }
 
         Date inMilliseconds = ticket.getInTime();
         Date outMilliseconds = ticket.getOutTime();
         long diff = outMilliseconds.getTime() - inMilliseconds.getTime();
-        double duration = (double) (diff / (double) THOUSAND) / THREE_THOUSAND_SIX_HUNDRED;
+        double duration = (double) (diff / (double) THOUSAND)
+                / THREE_THOUSAND_SIX_HUNDRED;
 
         switch (ticket.getParkingSpot().getParkingType()) {
             case CAR:
                 if (ticket.getIsRecurrentUser() && duration > ZERO_POINT_FIVE) {
                     double price = duration * Fare.CAR_RATE_PER_HOUR;
-                    double discountPrice = price - (price * ZERO_POINT_ZERO_FIVE);
+                    double discountPrice =
+                            price - (price * ZERO_POINT_ZERO_FIVE);
                     ticket.setPrice(roundDouble(discountPrice, 2));
                     break;
                 } else if (duration <= ZERO_POINT_FIVE) {
                     ticket.setPrice(0.00);
                     break;
                 } else {
-                    ticket.setPrice(roundDouble(duration * Fare.CAR_RATE_PER_HOUR, 2));
+                    ticket.setPrice(roundDouble(
+                            duration * Fare.CAR_RATE_PER_HOUR, 2));
                     break;
                 }
 
             case BIKE:
                 if (ticket.getIsRecurrentUser() && duration > ZERO_POINT_FIVE) {
                     double price = duration * Fare.BIKE_RATE_PER_HOUR;
-                    double discountPrice = price - (price * ZERO_POINT_ZERO_FIVE);
+                    double discountPrice =
+                            price - (price * ZERO_POINT_ZERO_FIVE);
                     ticket.setPrice(roundDouble(discountPrice, 2));
                     break;
                 } else if (duration <= ZERO_POINT_FIVE) {
                     ticket.setPrice(0.00);
                     break;
                 } else {
-                    ticket.setPrice(roundDouble(duration * Fare.BIKE_RATE_PER_HOUR, 2));
+                    ticket.setPrice(roundDouble(
+                            duration * Fare.BIKE_RATE_PER_HOUR, 2));
                     break;
                 }
 

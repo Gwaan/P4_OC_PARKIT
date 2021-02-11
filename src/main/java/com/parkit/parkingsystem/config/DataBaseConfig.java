@@ -31,14 +31,17 @@ public class DataBaseConfig {
      * <p>Method returning a Mysql connection.</p>
      *
      * @return connection to database
-     * @throws ClassNotFoundException f no definition for the class could be found
+     * @throws ClassNotFoundException f no definition for the class could be
+     *                                found
      * @throws SQLException           if a database access error occurs
      */
-    public Connection getConnection() throws ClassNotFoundException, SQLException {
+    public Connection getConnection() throws ClassNotFoundException,
+            SQLException {
         LOGGER.info("Create DB connection");
         rP.getDbConnectionInfo();
         Class.forName(rP.getDriver());
-        return DriverManager.getConnection(rP.getUrl(), rP.getUser(), rP.getPassword());
+        return DriverManager.getConnection(rP.getUrl(), rP.getUser(),
+                rP.getPassword());
     }
 
     /**

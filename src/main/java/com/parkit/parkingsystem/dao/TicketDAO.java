@@ -59,7 +59,8 @@ public class TicketDAO {
      * <p>Method returning the next available slot in the parking table.</p>
      *
      * @param ticket ticket to be saved
-     * @return either true if the ticket was correctly saved in the database or false if save failed
+     * @return either true if the ticket was correctly saved in the database
+     * or false if save failed
      */
     public boolean saveTicket(final Ticket ticket) {
         Connection con = null;
@@ -73,7 +74,8 @@ public class TicketDAO {
             ps.setString(TWO, ticket.getVehicleRegNumber());
             ps.setDouble(THREE, ticket.getPrice());
             ps.setTimestamp(FOUR, new Timestamp(ticket.getInTime().getTime()));
-            ps.setTimestamp(FIVE, (ticket.getOutTime() == null) ? null : (new Timestamp(ticket.getOutTime().getTime())));
+            ps.setTimestamp(FIVE, (ticket.getOutTime() == null) ? null
+                    : (new Timestamp(ticket.getOutTime().getTime())));
             return ps.execute();
         } catch (Exception ex) {
             LOGGER.error("Error fetching next available slot", ex);
@@ -87,11 +89,13 @@ public class TicketDAO {
     /**
      * <p>Method returning the next available slot in the parking table.</p>
      *
-     * @param vehicleRegNumber vehicle registration number associated with ticket
+     * @param vehicleRegNumber vehicle registration number associated with
+     *                         ticket
      * @param sqlRequest       sql request to execute
      * @return ticket retrieved from database
      */
-    public Ticket getTicket(final String vehicleRegNumber, final String sqlRequest) {
+    public Ticket getTicket(final String vehicleRegNumber,
+            final String sqlRequest) {
         Connection con = null;
         Ticket ticket = null;
         PreparedStatement ps = null;
@@ -104,7 +108,8 @@ public class TicketDAO {
             rs = ps.executeQuery();
             if (rs.next()) {
                 ticket = new Ticket();
-                ParkingSpot parkingSpot = new ParkingSpot(rs.getInt(ONE), ParkingType.valueOf(rs.getString(SIX)), false);
+                ParkingSpot parkingSpot = new ParkingSpot(rs.getInt(ONE),
+                        ParkingType.valueOf(rs.getString(SIX)), false);
                 ticket.setParkingSpot(parkingSpot);
                 ticket.setId(rs.getInt(TWO));
                 ticket.setVehicleRegNumber(vehicleRegNumber);
@@ -127,7 +132,8 @@ public class TicketDAO {
      * <p>Method updating a ticket in database.</p>
      *
      * @param ticket ticket to be updated
-     * @return either true if the ticket was correctly updated or false if the update failed
+     * @return either true if the ticket was correctly updated or false if
+     * the update failed
      */
     public boolean updateTicket(final Ticket ticket) {
         Connection con = null;
@@ -150,10 +156,12 @@ public class TicketDAO {
     }
 
     /**
-     * <p>Method returning if a vehicle registration number is existing in table ticket.</p>
+     * <p>Method returning if a vehicle registration number is existing in
+     * table ticket.</p>
      *
      * @param vehicleRegNumber vehicle registration number to be check
-     * @return either true if the vehicle registration number exists in database or true if does not exist
+     * @return either true if the vehicle registration number exists in
+     * database or true if does not exist
      */
     public boolean getVehicleRegNumber(final String vehicleRegNumber) {
         Connection con = null;
@@ -184,7 +192,8 @@ public class TicketDAO {
      * <p>Method returning if a vehicle is already parked in the parking.</p>
      *
      * @param vehicleRegNumber vehicle registration number to check
-     * @return either true if the vehicle is already parked in the parking lot either false
+     * @return either true if the vehicle is already parked in the parking
+     * lot either false
      */
     public boolean getCarAlreadyInParking(final String vehicleRegNumber) {
         Connection con = null;
@@ -193,7 +202,8 @@ public class TicketDAO {
         boolean result = false;
         try {
             con = dataBaseConfig.getConnection();
-            ps = con.prepareStatement(DBConstants.GET_VEHICLE_REG_NUMBER_CAR_ALREADY_PARKED);
+            ps = con.prepareStatement(
+                    DBConstants.GET_VEHICLE_REG_NUMBER_CAR_ALREADY_PARKED);
             ps.setString(ONE, vehicleRegNumber);
             rs = ps.executeQuery();
             if (rs.next()) {

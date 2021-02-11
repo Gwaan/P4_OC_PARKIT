@@ -62,7 +62,8 @@ public class ParkingSpotDAO {
      * <p>Method updating the availability for that parking slot.</p>
      *
      * @param parkingSpot Parking Spot to get updated
-     * @return either true if an update has been realized or false if nothing has been returned
+     * @return either true if an update has been realized or false if nothing
+     * has been returned
      */
     public boolean updateParking(final ParkingSpot parkingSpot) {
         Connection con = null;
