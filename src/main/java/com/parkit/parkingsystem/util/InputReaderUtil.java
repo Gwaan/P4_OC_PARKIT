@@ -6,18 +6,25 @@ import org.apache.logging.log4j.Logger;
 import java.util.Scanner;
 
 /**
- * <p>Utility class to get input from user</p>
+ * <p>Utility class to get input from user.</p>
  *
  * @author Gwen
  * @version 1.0
  */
 public class InputReaderUtil {
 
+    /**
+     * @see Scanner
+     */
     private Scanner scan;
-    private static final Logger logger = LogManager.getLogger("InputReaderUtil");
+    /**
+     * @see Logger
+     */
+    private static final Logger LOGGER = LogManager.getLogger(
+            "InputReaderUtil");
 
     /**
-     * <p>Get input from user</p>
+     * <p>Get input from user.</p>
      *
      * @return input
      */
@@ -27,14 +34,15 @@ public class InputReaderUtil {
             int input = Integer.parseInt(scan.nextLine());
             return input;
         } catch (Exception e) {
-            logger.error("Error while reading user input from Shell", e);
-            System.out.println("Error reading input. Please enter valid number for proceeding further");
+            LOGGER.error("Error while reading user input from Shell", e);
+            System.out.println("Error reading input. Please enter valid "
+                    + "number for proceeding further");
             return -1;
         }
     }
 
     /**
-     * <p>Get vehicle registration number from user</p>
+     * <p>Get vehicle registration number from user.</p>
      *
      * @return String input of the vehicle registration number
      * @throws IllegalArgumentException if the input is null
@@ -44,13 +52,15 @@ public class InputReaderUtil {
         try {
             scan = new Scanner(System.in, "UTF-8");
             String vehicleRegNumber = scan.nextLine();
-            if (vehicleRegNumber == null || vehicleRegNumber.trim().length() == 0) {
+            if (vehicleRegNumber == null
+                    || vehicleRegNumber.trim().length() == 0) {
                 throw new IllegalArgumentException("Invalid input provided");
             }
             return vehicleRegNumber;
         } catch (Exception e) {
-            logger.error("Error while reading user input from Shell", e);
-            System.out.println("Error reading input. Please enter a valid string for vehicle registration number");
+            LOGGER.error("Error while reading user input from Shell", e);
+            System.out.println("Error reading input. Please enter a valid "
+                    + "string for vehicle registration number");
             throw e;
         }
     }
