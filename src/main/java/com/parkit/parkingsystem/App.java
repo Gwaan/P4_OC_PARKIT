@@ -6,22 +6,28 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * <p>A command line app for managing a parking system
- * and storing the data in a MYsql DB</p>
+ * and storing the data in a Mysql DB.</p>
  *
  * @author Gwen
  * @version 1.0
  */
-public class App {
+public final class App {
 
-    private static final Logger logger = LogManager.getLogger("App");
+    private App() {
+    }
 
     /**
-     * Main
+     * @see Logger
+     */
+    private static final Logger LOGGER = LogManager.getLogger("App");
+
+    /**
+     * Main.
      *
      * @param args args
      */
-    public static void main(String args[]) {
-        logger.info("Initializing Parking System");
+    public static void main(final String[] args) {
+        LOGGER.info("Initializing Parking System");
         InteractiveShell.loadInterface();
     }
 }
