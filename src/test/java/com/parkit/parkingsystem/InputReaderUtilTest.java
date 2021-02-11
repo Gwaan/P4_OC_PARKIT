@@ -2,6 +2,7 @@ package com.parkit.parkingsystem;
 
 import com.parkit.parkingsystem.util.InputReaderUtil;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -20,6 +21,8 @@ public class InputReaderUtilTest {
     }
 
     @Test
+    @DisplayName("When an user input is an int, readSelection() should return"
+            + " the input")
     public void readSelectionTest() {
         // ARRANGE
         String input = "1";
@@ -31,6 +34,8 @@ public class InputReaderUtilTest {
     }
 
     @Test
+    @DisplayName("When an user input is different than an int, readSelection()"
+            + " should return -1")
     public void readSelectionWhenInputIsInvalidTest() {
         // ARRANGE
         String input = "r";
@@ -42,6 +47,9 @@ public class InputReaderUtilTest {
     }
 
     @Test
+    @DisplayName(
+            "When an user provides an input, readVehicleRegistrationNumber() "
+                    + "should return the input")
     public void readVehicleRegNumberTest() throws Exception {
         // ARRANGE
         String input = "ABCDEF";
@@ -53,6 +61,8 @@ public class InputReaderUtilTest {
     }
 
     @Test
+    @DisplayName("When an user input is blank, readVehicleRegistrationNumber"
+            + "() should throws an IllegalArgumentException")
     public void readVehicleRegNumberWhenInputIsInvalidTest() {
         // ARRANGE
         String input = "\n";
@@ -60,7 +70,8 @@ public class InputReaderUtilTest {
         System.setIn(in);
 
         // ASSERT
-        assertThrows(IllegalArgumentException.class, () -> inputReaderUtil.readVehicleRegistrationNumber());
+        assertThrows(IllegalArgumentException.class,
+                () -> inputReaderUtil.readVehicleRegistrationNumber());
     }
 
 

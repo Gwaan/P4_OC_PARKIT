@@ -10,6 +10,7 @@ import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -37,46 +38,65 @@ public class ParkingServiceTest {
     @BeforeEach
     private void setUpPerTest() {
         try {
-            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,
+                    false);
             ticket = new Ticket();
-            ticket.setInTime(new Date(System.currentTimeMillis() - (60 * 60 * 1000)));
+            ticket.setInTime(
+                    new Date(System.currentTimeMillis() - (60 * 60 * 1000)));
             ticket.setParkingSpot(parkingSpot);
             ticket.setVehicleRegNumber("ABCDEF");
             //when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
-            parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+            parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO,
+                    ticketDAO);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to set up test mock objects");
         }
     }
 
-    @Test
-    public void processExitingVehicleTest() throws Exception {
-        // ARRANGE
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-        when(ticketDAO.getTicket(anyString(), anyString())).thenReturn(ticket);
-        when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
-
-        // ACT
-        parkingService.processExitingVehicle();
-
-        // ASSERT
-        verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
-
-    }
 
     @Test
+    @DisplayName("Given a recurrent user want to enter the parking, when "
+            + "processIncomingVehicle is called, then the user is set to "
+            + "reccurent and the ticket is saved in db")
     public void processIncomingVehicleTest() throws Exception {
         // ARRANGE
         when(inputReaderUtil.readSelection()).thenReturn(1);
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-        when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
+        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn(
+                "ABCDEF");
+        when(parkingSpotDAO.getNextAvailableSlot(
+                any(ParkingType.class))).thenReturn(1);
+        when(ticketDAO.getVehicleRegNumber("ABCDEF")).thenReturn(true);
 
         // ACT
         parkingService.processIncomingVehicle();
 
         //ASSERT
         verify(ticketDAO, times(1)).saveTicket(any(Ticket.class));
+        verify(ticketDAO, times(1)).getVehicleRegNumber("ABCDEF");
+        verify(parkingSpotDAO, times(1)).updateParking(any(ParkingSpot.class));
+    }
+
+    @Test
+    @DisplayName("Given a recurrent user want to exit the parking, when "
+            + "processExitingVehicle() is called, then the user is set to "
+            + "recurrent, the fare is set and the parking spot is updated")
+    public void processExitingVehicleTest() throws Exception {
+        // ARRANGE
+        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn(
+                "ABCDEF");
+        when(ticketDAO.getTicket(anyString(), anyString())).thenReturn(ticket);
+        when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
+        when(ticketDAO.getVehicleRegNumber("ABCDEF")).thenReturn(true);
+
+        // ACT
+        parkingService.processExitingVehicle();
+
+        // ASSERT
+        verify(parkingSpotDAO, Mockito.times(1)).updateParking(
+                any(ParkingSpot.class));
+        verify(ticketDAO, times(1)).updateTicket(any(Ticket.class));
+        verify(ticketDAO, times(1)).getTicket(anyString(), anyString());
 
     }
 
