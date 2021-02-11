@@ -3,6 +3,8 @@ package com.parkit.parkingsystem;
 import com.parkit.parkingsystem.config.DataBaseConfig;
 import com.parkit.parkingsystem.constants.DBConstants;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,6 +22,7 @@ public class DataBaseConfigTest {
         dataBaseConfig = new DataBaseConfig();
     }
 
+    @DisplayName("Instantiating connection, expected is not null")
     @Test
     public void getConnectionTest() throws SQLException,
             ClassNotFoundException {
@@ -33,6 +36,7 @@ public class DataBaseConfigTest {
         assertNotNull(connection);
     }
 
+    @DisplayName("Closing connection, expected is true")
     @Test
     public void closeConnectionTest() throws SQLException,
             ClassNotFoundException {
@@ -47,6 +51,7 @@ public class DataBaseConfigTest {
         assertTrue(connection.isClosed());
     }
 
+    @DisplayName("Closing PreparedStatement, expected is true")
     @Test
     public void closePreparedStatementTest() throws SQLException,
             ClassNotFoundException {
@@ -64,6 +69,7 @@ public class DataBaseConfigTest {
         assertTrue(ps.isClosed());
     }
 
+    @DisplayName("Closing ResultSet, expected is true")
     @Test
     public void closeResultSetTest() throws SQLException,
             ClassNotFoundException {
